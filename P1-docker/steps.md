@@ -1,4 +1,4 @@
-#Docker tutorial
+# Docker tutorial
 ## Index
 
 1. [Code the app](#code-the-app)
