@@ -55,12 +55,12 @@ Create the index.html view
 </html>
 ```
 
-Let's set an script to install depencencies before starting the server in the packaje.json:
+Let's set a script to start the server in the packaje.json:
 ```json
 {
     ...
     "scripts": {
-        "start": "npm i --only=prod && node index.js"
+        "start": "node index.js"
     }
   ...
 }
