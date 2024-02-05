@@ -1,3 +1,30 @@
+# Docker compose tutorial
+## Index
+
+1. [Code the microservices](#code-the-microservices)
+2. [Create docker-compose file](#create-docker-compose-file)
+3. [Deploy infrastructure](#deploy-infrastructure)
+
+## Code the microservices
+We will use the backend and frontend example folders in P2-docker-compose.
+
+Backend connects to a mongo db. Listens on port 4000
+- `GET /fruits` returns the fruits stored in mongo db 
+- `POST /fruits` stores the json body as a fruit in db
+- `POST /fruits/populate` populates de db with sample fuits
+
+Frontend. Listens on port 3000
+- `GET /returns` the landing page (index.html)
+- `GET /fruits` calls backend and shows the fruits in the db
+- `GET /fruits/populate` calls backend populate db
+
+The Frontend calls the backend using `http://host.docker.internal:PORT/PATH`
+
+We cannot use 'localhost' because the execution is within a container. Each container has its own distinct 'localhost.' However, communication between containers is possible using 'host.docker.internal.' The request is transmitted within the Docker network that groups the containers.
+
+## Create docker-compose file
+docker-compose.local.yml:
+```yml
 version: '3'
 
 services:
@@ -48,3 +75,14 @@ volumes:
 networks:
   backend-network: null #network for backend and mongo
   frontend-network: null #network for frontend
+
+```
+## Deploy infrastructure
+
+Run the following command:
+```bash
+docker-compose -f docker-compose.local.yml up -d
+```
+
+aditional options: 
+- `--env-file PATH` uses the .env file to set enviroment variables (Tokens,Ports,...)

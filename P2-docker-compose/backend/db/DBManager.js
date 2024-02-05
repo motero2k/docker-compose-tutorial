@@ -22,4 +22,20 @@ async function connectDB() {
   }
 }
 
-module.exports = { connectDB };
+async function populateDB(fruitsDB) {
+  const fruits = [
+    { name: 'apple', color: 'red' },
+    { name: 'banana', color: 'yellow' },
+    { name: 'pear', color: 'green' },
+  ];
+
+  try {
+    await fruitsDB.collection('fruits').insertMany(fruits);
+    console.log('Fruits inserted');
+  } catch (error) {
+    console.error('Error inserting fruits:', error);
+    throw error;
+  }
+}
+
+module.exports = { connectDB, populateDB};

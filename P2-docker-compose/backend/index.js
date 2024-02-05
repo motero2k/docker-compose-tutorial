@@ -4,7 +4,7 @@
 // index.js
 
 const express = require('express');
-const { connectDB } = require('./db'); // Adjust the path based on the actual location
+const { connectDB, populateDB } = require('./db/DBManager.js'); // Adjust the path based on the actual location
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -28,8 +28,7 @@ connectDB()
 // Get fruits from MongoDB
 app.get('/fruits', async (req, res) => {
   try {
-    // const fruits = await db.collection('fruits').find({}).toArray();
-    const fruits = { "fruits": ["apple", "banana", "orange"] };
+    const fruits = await db.collection('fruits').find({}).toArray();
     res.json(fruits);
   } catch (error) {
     console.error('Error retrieving fruits from MongoDB:', error);
@@ -37,3 +36,18 @@ app.get('/fruits', async (req, res) => {
   }
 });
 
+app.post('/fruits', express.json(), async (req, res) => {
+  try {
+    const newFruit = req.body;
+    await db.collection('fruits').insertOne(newFruit);
+    res.status(201).send('Fruit created');
+  } catch (error) {
+    console.error('Error creating fruit:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/fruits/populate', async (req, res) => {
+  populateDB(db);
+  res.status(201).send('Fruits populated!!');
+});
