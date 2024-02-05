@@ -1,0 +1,14 @@
+{
+  "name": "p1-docker",
+  "version": "1.0.0",
+  "description": "a simple app with docker",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm i --only=prod && node index.js"
+  },
+  "author": "motero2k",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
