@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+
+  mongo:
+    container_name: simplest-app-mongo
+    image: mongo:6.0
+    networks:
+      - backend-network
+    volumes:
+      - 'simplest-app-mongo-volume:/data/db'
+    restart: 'unless-stopped'
+
+  backend:
+    container_name: simplest-app-backend
+    build: ./backend
+    networks:
+      - backend-network
+    depends_on:
+      - mongo
+
+  frontend:
+    container_name: simplest-app-frontend
+    ports:
+      - '80:3000'
+    build: ./frontend
+    networks:
+      - backend-network
+      - frontend-network
+    depends_on:
+      - backend
+
+networks:
+  backend-network: null
+  frontend-network: null
+
+volumes:
+  simplest-app-mongo-volume: null
+
+
+
+
+
