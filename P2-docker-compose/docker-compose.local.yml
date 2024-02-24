@@ -15,8 +15,7 @@ services:
   backend:
     container_name: simplest-app-backend
     build:  #image built from Dockerfile in the backend directory
-      context: ./backend
-      dockerfile: Dockerfile
+      context: backend
     ports:
       - '4000:4000'
     networks:
@@ -32,7 +31,8 @@ services:
     # this localhost is the container's internal localhost, not your machine's localhost
     # port 80 in the host machine (your pc) will be mapped to port 3000 in the container
     # so you (host) can access the frontend in the browser using localhost:80
-    build: ./frontend
+    build:
+      context: frontend
     networks:
       - backend-network
       - frontend-network
@@ -40,7 +40,7 @@ services:
       - backend
     volumes: #bind mount for the frontend, 
     #changes in index.html will be reflected in the container without rebuilding the image
-      - ./frontend:/opt/app
+      - ./frontend/index.html:/opt/app/index.html
 
 volumes:
   simplest-app-mongo-volume: null

@@ -3,7 +3,6 @@
 # Use the official Node.js image
 FROM node:18
 
-
 # Set the working directory in the container
 WORKDIR /opt/app
 
